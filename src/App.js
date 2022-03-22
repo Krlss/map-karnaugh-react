@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { Header, Input, ButtonAdd, Tags, ButtonCal, Checked, Table } from './components';
+import { Header, Input, ButtonAdd, Tags, ButtonCal, Checked, Table, TableKarnaugh } from './components';
 
 import TrueTable from './core/TrueTable';
-
+import KarnaughMap from './core/KarnaughMap';
+import { getLetters } from './core/core';
 const App = () => {
 
   const [state, setState] = useState([{ letter: 'S', text: "Sistema", checked: true }]);
   const [text, setText] = useState('');
   const [truthTable, setTruthTable] = useState(null);
+  const [karnaughMap, setKarnaughMap] = useState();
+  const [letters, setLetters] = useState(null);
 
   const newState = () => {
 
@@ -41,6 +44,7 @@ const App = () => {
   const calculate = () => {
     if (!state[0].checked) return alert("Enciende el sistema");
     setTruthTable(TrueTable(state));
+    setKarnaughMap(KarnaughMap(state, TrueTable(state)));
   }
 
   return (
@@ -90,7 +94,9 @@ const App = () => {
           </div>
           <div>
             <h1 className='text-2xl font-black text-gray-600 my-2'>Mapa de Karnaugh</h1>
-            {/* <Table body={truthTable} head={state} /> */}
+            {
+              karnaughMap && <TableKarnaugh letters={getLetters(state)} body={karnaughMap.map} head={karnaughMap._Header} />
+            }
           </div>
         </div>
       }

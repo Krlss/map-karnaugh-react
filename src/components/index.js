@@ -29,9 +29,9 @@ export const ButtonAdd = ({ onClick, state }) => {
 
 export const ButtonCal = ({ onClick, state }) => {
     return (
-        state.length > 1 ?
+        state.length > 3 ?
             <button onClick={onClick} className='px-5 py-2 font-semibold rounded-md text-white max-w-min'>Calcular</button>
-            : <small>Necesitas al menos 2 estados para poder calcular.</small>
+            : <small>Necesitas al menos 4 estados para poder calcular.</small>
     );
 }
 
@@ -63,6 +63,39 @@ export const Table = ({ head, body }) => {
                         head.map((e) => <th className='p-1' key={e.letter}>{e.letter}</th>)
                     }
                     <th>Salida</th>
+                </tr>
+            </thead>
+            <tbody className='max-h-72 overflow-auto bodyTruthTable'>
+                {
+                    body.map((row, rowkey) => {
+                        return (
+                            <tr className={`${rowkey % 2 == 0 && 'bg-gray-100'} ${row.slice(-1)[0] && 'truthTable'} w-full table table-fixed`} key={rowkey}>
+                                {
+                                    row.map((col, colkey) =>
+                                        <th className='p-1' key={colkey}>{col ? '1' : '0'}</th>
+                                    )
+                                }
+                            </tr>
+                        )
+                    }
+                    )
+                }
+            </tbody>
+        </table>
+    );
+}
+
+export const TableKarnaugh = ({ head, body, headbody, letters }) => {
+    return (
+        <table className='text-gray-600 flex flex-col w-full text-center md:pr-10'>
+            <thead className='bg-gray-200 table table-fixed w-full'>
+                <tr>
+                    {
+                        `${letters.slice(0, letters.length / 2).map((e) => e)}/${letters.slice(letters.length / 2, letters.length).map((e) => e)}`.replaceAll(',', '')
+                    }
+                    {
+                        head.map((e, index) => <th key={index}>{e.map((x) => x ? '1' : '0')}</th>)
+                    }
                 </tr>
             </thead>
             <tbody className='max-h-72 overflow-auto bodyTruthTable'>
