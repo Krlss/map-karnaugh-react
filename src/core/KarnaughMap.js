@@ -17,9 +17,10 @@ const KarnaughMap = (state, truthTable) => {
     HeaderBody = generateBits(HeaderBodyLength);
 
     /* Create map */
-    map = CreateMap(Header.length, HeaderBody.length);
+    map = CreateMap(HeaderBody.length, Header.length, HeaderBody);
 
     for (let i = 0; i < truthTable.length; i++) {
+        //if result true
         if (truthTable[i][(truthTable[i].length - 1)]) {
             //deleted last column = result
             truthTable[i].pop();
@@ -28,8 +29,8 @@ const KarnaughMap = (state, truthTable) => {
             let _Header = truthTable[i].slice(0, truthTable[i].length / 2);
             let _HeaderBody = truthTable[i].slice(truthTable[i].length / 2, truthTable[i].length);
 
-            posHeader.push(getIndexOf(Header, _Header));
-            posHeaderBody.push(getIndexOf(HeaderBody, _HeaderBody));
+            posHeaderBody.push((getIndexOf(Header, _Header) + 1));
+            posHeader.push(getIndexOf(HeaderBody, _HeaderBody));
 
         }
     }

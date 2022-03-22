@@ -11,12 +11,16 @@ export const generateBits = (n) => {
     return arr;
 }
 
-export const CreateMap = (col, fil) => {
+export const CreateMap = (col, fil, HeaderBody) => {
     var map = [];
     var row = [];
     for (let i = 0; i < col; i++) {
-        for (let j = 0; j < fil; j++) {
-            row.push(0);
+        for (let j = 0; j < fil + 1; j++) {
+            if (j == 0) {
+                row.push(HeaderBody[i])
+            } else {
+                row.push(0);
+            }
         }
         map.push(row);
         row = [];

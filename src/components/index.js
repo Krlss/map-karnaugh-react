@@ -16,14 +16,14 @@ export const Input = ({
     state
 }) => {
     return (
-        <input type='text' disabled={state.length == 5} placeholder={state.length < 5 ? placeholder : 'Solo se pueden como máximo 5 estados.'} className='w-full max-w-md px-5 py-2 focus:outline-none rounded-md bg-slate-50 '
+        <input type='text' disabled={state.length == 7} placeholder={state.length < 7 ? placeholder : 'Solo se pueden como máximo 7 estados.'} className='w-full max-w-md px-5 py-2 focus:outline-none rounded-md bg-slate-50 '
             maxLength={25} onChange={onChange} value={value} autoFocus />
     );
 }
 
 export const ButtonAdd = ({ onClick, state }) => {
     return (
-        <button disabled={state.length == 5} onClick={onClick} className='px-5 py-2 font-semibold rounded-md w-36 add'>Agregar</button>
+        <button disabled={state.length == 7} onClick={onClick} className='px-5 py-2 font-semibold rounded-md w-36 add'>Agregar</button>
     );
 }
 
@@ -31,7 +31,7 @@ export const ButtonCal = ({ onClick, state }) => {
     return (
         state.length > 3 ?
             <button onClick={onClick} className='px-5 py-2 font-semibold rounded-md text-white max-w-min'>Calcular</button>
-            : <small>Necesitas al menos 4 estados para poder calcular.</small>
+            : <small>Necesitas al menos 7 estados para poder calcular.</small>
     );
 }
 
@@ -90,9 +90,11 @@ export const TableKarnaugh = ({ head, body, headbody, letters }) => {
         <table className='text-gray-600 flex flex-col w-full text-center md:pr-10'>
             <thead className='bg-gray-200 table table-fixed w-full'>
                 <tr>
-                    {
-                        `${letters.slice(0, letters.length / 2).map((e) => e)}/${letters.slice(letters.length / 2, letters.length).map((e) => e)}`.replaceAll(',', '')
-                    }
+                    <th>
+                        {
+                            `${letters.slice(letters.length / 2, letters.length).map((e) => e)}/${letters.slice(0, letters.length / 2).map((e) => e)}`.replaceAll(',', '')
+                        }
+                    </th>
                     {
                         head.map((e, index) => <th key={index}>{e.map((x) => x ? '1' : '0')}</th>)
                     }
@@ -102,10 +104,13 @@ export const TableKarnaugh = ({ head, body, headbody, letters }) => {
                 {
                     body.map((row, rowkey) => {
                         return (
-                            <tr className={`${rowkey % 2 == 0 && 'bg-gray-100'} ${row.slice(-1)[0] && 'truthTable'} w-full table table-fixed`} key={rowkey}>
+                            <tr className={`w-full table table-fixed`} key={rowkey}>
                                 {
-                                    row.map((col, colkey) =>
-                                        <th className='p-1' key={colkey}>{col ? '1' : '0'}</th>
+                                    row.map((col, colkey) => {
+                                        return (
+                                            <th className={`${colkey && col && 'truthTable'} p-1`} key={colkey}>{!colkey ? col.map((e) => e ? '1' : '0') : col ? '1' : '0'}</th>
+                                        )
+                                    }
                                     )
                                 }
                             </tr>

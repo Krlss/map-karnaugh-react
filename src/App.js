@@ -14,7 +14,7 @@ const App = () => {
 
   const newState = () => {
 
-    let letter = ['S', 'A', 'B', 'C', 'D'];
+    let letter = ['S', 'A', 'B', 'C', 'D', 'F', 'G'];
     /* [S, A] */
     var uniqueLetter = [];
     var flat = false;
@@ -32,7 +32,7 @@ const App = () => {
       flat = false;
     })
 
-    if (state.length < 5) {
+    if (state.length < 7) {
       if (text && text.trim()) {
         setState([...state, { letter: uniqueLetter[0], text, checked: true }]);
         setText('');
@@ -54,7 +54,7 @@ const App = () => {
       <div className='flex lg:space-x-2 lg:flex-row flex-col space-x-0 space-y-2 lg:space-y-0 lg:items-center'>
         <Input state={state} placeholder='Escribir el estado' onChange={(text) => setText(text.target.value)} value={text ? text : ''} />
         {
-          state.length < 5 && <ButtonAdd state={state} onClick={newState} />
+          state.length < 7 && <ButtonAdd state={state} onClick={newState} />
         }
         <ButtonCal state={state} onClick={calculate} />
       </div>
@@ -87,7 +87,7 @@ const App = () => {
 
       {
         truthTable &&
-        <div className='grid md:grid-cols-2 grid-cols-1'>
+        <div className={state.length > 5 ? 'grid lg:grid-cols-2 grid-cols-1' : 'grid md:grid-cols-2 grid-cols-1'}>
           <div>
             <h1 className='text-2xl font-black text-gray-600 my-2'>Tabla de verdad</h1>
             <Table body={truthTable} head={state} />
