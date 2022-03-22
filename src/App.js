@@ -33,6 +33,7 @@ const App = () => {
       if (text && text.trim()) {
         setState([...state, { letter: uniqueLetter[0], text, checked: true }]);
         setText('');
+        setTruthTable(null);
       }
     }
   }
@@ -58,7 +59,13 @@ const App = () => {
         {
           state ?
             state.map((e, key) =>
-              <Tags mykey={key} key={key} letter={e.letter} text={e.text} onClick={() => { if (window.confirm("¿Deseas eliminar " + e.text + "?")) setState(state.filter((e, k) => k != key)) }}>
+              <Tags mykey={key} key={key} letter={e.letter} text={e.text} onClick={() => {
+                if (window.confirm("¿Deseas eliminar " + e.text + "?")) {
+                  setState(state.filter((e, k) => k != key));
+                  setTruthTable(null);
+                }
+              }}>
+
                 <Checked
                   onClick={(check) => {
                     let array = [...state];
@@ -76,14 +83,14 @@ const App = () => {
 
       {
         truthTable &&
-        <div className='grid grid-cols-2'>
+        <div className='grid md:grid-cols-2 grid-cols-1'>
           <div>
             <h1 className='text-2xl font-black text-gray-600 my-2'>Tabla de verdad</h1>
             <Table body={truthTable} head={state} />
           </div>
           <div>
             <h1 className='text-2xl font-black text-gray-600 my-2'>Mapa de Karnaugh</h1>
-            <Table body={truthTable} head={state} />
+            {/* <Table body={truthTable} head={state} /> */}
           </div>
         </div>
       }

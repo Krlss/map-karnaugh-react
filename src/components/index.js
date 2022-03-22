@@ -56,23 +56,23 @@ export const Checked = ({ onClick, checked }) => {
 
 export const Table = ({ head, body }) => {
     return (
-        <table className='w-full'>
-            <thead className='bg-green-100'>
+        <table className='text-gray-600 flex flex-col w-full text-center md:pr-10'>
+            <thead className='bg-gray-200 table table-fixed w-full'>
                 <tr>
                     {
-                        head.map((e) => <th key={e.letter}>{e.letter}</th>)
+                        head.map((e) => <th className='p-1' key={e.letter}>{e.letter}</th>)
                     }
                     <th>Salida</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody className='max-h-72 overflow-auto bodyTruthTable'>
                 {
                     body.map((row, rowkey) => {
                         return (
-                            <tr key={rowkey}>
+                            <tr className={`${rowkey % 2 == 0 && 'bg-gray-100'} ${row.slice(-1)[0] && 'truthTable'} w-full table table-fixed`} key={rowkey}>
                                 {
                                     row.map((col, colkey) =>
-                                        <th key={colkey}>{col ? '1' : '0'}</th>
+                                        <th className='p-1' key={colkey}>{col ? '1' : '0'}</th>
                                     )
                                 }
                             </tr>
