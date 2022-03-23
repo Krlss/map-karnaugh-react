@@ -52,7 +52,7 @@ const App = () => {
       <Header />
       <h1 className='text-2xl font-black text-gray-600 my-2'>Estados</h1>
       <div className='flex lg:space-x-2 lg:flex-row flex-col space-x-0 space-y-2 lg:space-y-0 lg:items-center'>
-        <Input state={state} placeholder='Escribir el estado' onChange={(text) => setText(text.target.value)} value={text ? text : ''} />
+        <Input KeyUp={(e) => e.keyCode === 13 && newState()} state={state} placeholder='Escribir el estado' onChange={(text) => setText(text.target.value)} value={text ? text : ''} />
         {
           state.length < 7 && <ButtonAdd state={state} onClick={newState} />
         }
@@ -90,7 +90,7 @@ const App = () => {
         <div className={state.length > 5 ? 'grid lg:grid-cols-2 grid-cols-1' : 'grid md:grid-cols-2 grid-cols-1'}>
           <div>
             <h1 className='text-2xl font-black text-gray-600 my-2'>Tabla de verdad</h1>
-            <Table body={truthTable} head={state} />
+            <Table className={state.length > 5 ? 'lg:pr-10 pr-0' : 'md:pr-10'} body={truthTable} head={state} />
           </div>
           <div>
             <h1 className='text-2xl font-black text-gray-600 my-2'>Mapa de Karnaugh</h1>

@@ -1,13 +1,30 @@
 export const generateBits = (n) => {
-    let row = [];
     let arr = [];
-    for (var i = (Math.pow(2, n) - 1); i >= 0; i--) {
+
+    /* let row = []; */
+    /* for (var i = (Math.pow(2, n) - 1); i >= 0; i--) {
         row = [];
         for (var j = (n - 1); j >= 0; j--) {
-            row.push((i & Math.pow(2, j)) ? true : false)
+            row.push((i & Math.pow(2, j)) ? false : true)
         }
         arr.push(row);
+    } */
+
+    switch (n) {
+        case 1:
+            arr = [[false], [true]];
+            break;
+        case 2:
+            arr = [[false, false], [false, true], [true, true], [true, false]];
+            break;
+        case 3:
+            arr = [[false, false, false], [false, false, true], [false, true, true], [false, true, false], [true, true, false], [true, true, true], [true, false, true], [true, false, false]];
+            break;
+        case 4:
+            arr = [[false, false, false, false], [false, false, false, true], [false, false, true, true], [false, false, true, false], [false, true, true, false], [false, true, true, true], [false, true, false, true], [false, true, false, false], [true, true, false, false], [true, true, false, true], [true, true, true, true], [true, true, true, false], [true, false, true, false], [true, false, true, true], [true, false, false, true], [true, false, false, false]];
+            break;
     }
+
     return arr;
 }
 

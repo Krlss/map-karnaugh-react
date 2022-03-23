@@ -13,10 +13,11 @@ export const Input = ({
     placeholder,
     onChange,
     value,
-    state
+    state,
+    KeyUp
 }) => {
     return (
-        <input type='text' disabled={state.length == 7} placeholder={state.length < 7 ? placeholder : 'Solo se pueden como máximo 7 estados.'} className='w-full max-w-md px-5 py-2 focus:outline-none rounded-md bg-slate-50 '
+        <input onKeyUp={KeyUp} type='text' disabled={state.length == 7} placeholder={state.length < 7 ? placeholder : 'Solo se pueden como máximo 7 estados.'} className='w-full max-w-md px-5 py-2 focus:outline-none rounded-md bg-slate-50 '
             maxLength={25} onChange={onChange} value={value} autoFocus />
     );
 }
@@ -54,25 +55,25 @@ export const Checked = ({ onClick, checked }) => {
     );
 }
 
-export const Table = ({ head, body }) => {
+export const Table = ({ head, body, className }) => {
     return (
-        <table className='text-gray-600 flex flex-col w-full text-center md:pr-10'>
-            <thead className='bg-gray-200 table table-fixed w-full'>
+        <table className={`flex flex-col w-full text-center ${className}`}>
+            <thead className='table table-fixed w-full text-gray-600'>
                 <tr>
                     {
                         head.map((e) => <th className='p-1' key={e.letter}>{e.letter}</th>)
                     }
-                    <th>Salida</th>
+                    <th>R</th>
                 </tr>
             </thead>
-            <tbody className='max-h-72 overflow-auto bodyTruthTable'>
+            <tbody className='max-h-72 overflow-auto '>
                 {
                     body.map((row, rowkey) => {
-                        return (
-                            <tr className={`${rowkey % 2 == 0 && 'bg-gray-100'} ${row.slice(-1)[0] && 'truthTable'} w-full table table-fixed`} key={rowkey}>
+                        return (/* ${row.slice(-1)[0] && 'truthTable'} */
+                            <tr className={`border w-full table table-fixed`} key={rowkey}>
                                 {
                                     row.map((col, colkey) =>
-                                        <th className='p-1' key={colkey}>{col ? '1' : '0'}</th>
+                                        <th className={`${row.slice(-1)[0] && 'truthTable'} p-1 font-normal `} key={colkey}>{col ? '1' : '0'}</th>
                                     )
                                 }
                             </tr>
@@ -87,8 +88,20 @@ export const Table = ({ head, body }) => {
 
 export const TableKarnaugh = ({ head, body, headbody, letters }) => {
     return (
-        <table className='text-gray-600 flex flex-col w-full text-center md:pr-10'>
-            <thead className='bg-gray-200 table table-fixed w-full'>
+        <div className='text-gray-600 flex flex-col w-full'>
+
+            <div className='flex flex-row w-full text-center'>
+                <small className='m-auto'>
+                    {
+                        `${letters.slice(letters.length / 2, letters.length).map((e) => e)}/${letters.slice(0, letters.length / 2).map((e) => e)}`.replaceAll(',', '')
+                    }
+                </small>
+                {
+                    head.map((e, index) => <div className='m-auto font-bold w-full' key={index}>{e.map((x) => x ? '1' : '0')}</div>)
+                }
+            </div>
+
+            {/* <thead className='bg-gray-200 table table-fixed w-full'>
                 <tr>
                     <th>
                         {
@@ -99,26 +112,27 @@ export const TableKarnaugh = ({ head, body, headbody, letters }) => {
                         head.map((e, index) => <th key={index}>{e.map((x) => x ? '1' : '0')}</th>)
                     }
                 </tr>
-            </thead>
-            <tbody className='max-h-72 overflow-auto bodyTruthTable'>
+            </thead> */}
+            <div className='max-h-72 overflow-auto bodyTruthTable'>
                 {
                     body.map((row, rowkey) => {
                         return (
-                            <tr className={`w-full table table-fixed`} key={rowkey}>
+                            <div className={`w-full flex flex-row text-center`} key={rowkey}>
                                 {
                                     row.map((col, colkey) => {
+                                        {/* <th className={`${colkey && col && 'truthTable'} p-1`} key={colkey}>{!colkey ? col.map((e) => e ? '1' : '0') : col ? '1' : '0'}</th> */ }
                                         return (
-                                            <th className={`${colkey && col && 'truthTable'} p-1`} key={colkey}>{!colkey ? col.map((e) => e ? '1' : '0') : col ? '1' : '0'}</th>
+                                            <div className={`${colkey && col && ''} p-1 m-auto ${!colkey ? 'font-bold' : 'border w-full'}`} key={colkey}>{!colkey ? col.map((e) => e ? '1' : '0') : col ? '1' : '0'}</div>
                                         )
                                     }
                                     )
                                 }
-                            </tr>
+                            </div>
                         )
                     }
                     )
                 }
-            </tbody>
-        </table>
+            </div>
+        </div>
     );
 }
